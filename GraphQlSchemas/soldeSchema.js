@@ -1,10 +1,18 @@
-import { gql } from "apollo-server-express";
+import pkg from "apollo-server-express";
+const { gql } = pkg;
 
 export default gql`
-  type Solde {
+  extend type Query {
+    GetdiscountByID(id: ID!): Soldei
+  }
+
+  extend type Mutation {
+    AddDiscount(Expiry: Datetime, Percentage: Int, Code: String): Soldei
+  }
+  type Soldei {
     id: ID
-    Expiry: Date
+    Expiry: Datetime
     Percentage: Int
-    code: String
+    Code: String
   }
 `;

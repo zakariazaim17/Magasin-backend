@@ -1,5 +1,7 @@
 //import ProductResolver from "./productResolver.js";
 import Clientresolver from "./clientResolver.js";
+import Productresolver from "./productResolver.js";
+import soldeResolver from "./soldeResolver.js";
 //import pkg from "graphql-iso-date";
 import pks from "graphql";
 const { GraphQLScalarType, Kind } = pks;
@@ -26,4 +28,9 @@ const customScalarResolver = {
   }),
 };
 
-export default [customScalarResolver, Clientresolver];
+export default [
+  customScalarResolver,
+  Clientresolver,
+  Productresolver,
+  soldeResolver,
+];

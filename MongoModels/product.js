@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import ownuser from "./user.js";
-const Schema = mongoose.Schema;
-
+import User from "./user.js";
 import Image from "./image.js";
-import Solde from "./solde.js";
+import Soldei from "./solde.js";
+
+const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
   Title: { type: String, required: true },
@@ -24,13 +24,12 @@ const productSchema = new Schema({
   },
   Description: String,
   Images: [{ type: mongoose.Types.ObjectId, ref: Image }],
-
   Published: Date,
   OnStore: Boolean,
+  Clian: [{ type: mongoose.Types.ObjectId, ref: User }],
   Quantity: { type: Number, min: 0 },
   Sizes: [{ types: String, enum: ["XS", "S", "M", "L", "XL", "2XL", "3XL"] }],
-  CodePromo: [{ type: mongoose.Types.ObjectId, ref: Solde }],
-  Owner: [{ type: mongoose.Types.ObjectId, ref: ownuser }],
+  CodePromo: [{ type: mongoose.Types.ObjectId, ref: Soldei }],
 });
 const Product = mongoose.model("Products", productSchema);
 export default Product;

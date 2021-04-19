@@ -1,22 +1,52 @@
 import pkg from "apollo-server-express";
 const { gql } = pkg;
 export default gql`
-  extend type Query {
-    products: [Products]
-  }
-
   type Products {
     id: ID
     Title: String
     Price: Int
     Category: String
     Description: String
-    Published: Date
+    Published: Datetime
+    Clian: [Client]
     OnStore: Boolean
-    Quantity: Number
+    Quantity: Int
     Sizes: [String]
-    CodePromo: [Solde]
-    Owner: [Client]
-    Images: [Image]
+    CodePromo: [Soldei]
+
+    Images: [String]
+  }
+
+  extend type Query {
+    GetAllproducts: [Products]
+
+    GetProductsByClient(id: ID!): [Products]
+  }
+
+  extend type Mutation {
+    AddProduct(
+      Title: String
+      Price: Int
+      Category: String
+      Description: String
+      Quantity: Int
+      CodePromo: ID
+      Clian: ID
+    ): Products
+  }
+
+  input productenter {
+    Title: String
+    Price: Int
+    Category: String
+    Description: String
+    Quantity: Int
+    Sizes: [Sizedetail]
+    CodePromo: ID
+    clian: ID
+  }
+
+  input Sizedetail {
+    koko: String
   }
 `;

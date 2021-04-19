@@ -6,6 +6,14 @@ export default {
       try {
         return await clientModel.findById(args.id);
       } catch (e) {
+        console.log("Failed to get Client by id", e.message);
+      }
+    },
+
+    GetAllClients: async (parent, args) => {
+      try {
+        return await clientModel.find();
+      } catch (e) {
         console.log(e.message);
       }
     },
@@ -25,6 +33,24 @@ export default {
         return newClient.save();
       } catch (e) {
         console.log(e - mressage);
+      }
+    },
+
+    UpdateClient: async (parent, args) => {
+      try {
+        const update = {
+          Username: args.Username,
+          Email: args.Email,
+          Pass: args.Pass,
+          ClientLevel: args.ClientLevel,
+          Verified: args.Verified,
+          Totalproducts: args.Totalproducts,
+        };
+        return await clientModel.findByIdAndUpdate(args.id, args, {
+          new: true,
+        });
+      } catch (e) {
+        console.log("Update user Failed", e);
       }
     },
   },
