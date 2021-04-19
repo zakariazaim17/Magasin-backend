@@ -1,0 +1,24 @@
+{
+  "name": "magasin-back",
+  "version": "1.0.0",
+  "description": "e-comm application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "type": "module",
+  "author": "zakaria ziouziou",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^2.23.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "graphql": "^15.5.0",
+    "mongoose": "^5.12.4",
+    "multer": "^1.4.2",
+    "uuid": "^8.3.2"
+  }
+}
