@@ -8,7 +8,7 @@ export default gql`
     Category: String
     Description: String
     Published: Datetime
-    Clian: [Client]
+    Owner: [Client]
     OnStore: Boolean
     Quantity: Int
     Sizes: [String]
@@ -31,7 +31,7 @@ export default gql`
       Description: String
       Quantity: Int
       CodePromo: ID
-      Clian: ID
+      Owner: ID
     ): Products
   }
 
@@ -43,7 +43,7 @@ export default gql`
     Quantity: Int
     Sizes: [Sizedetail]
     CodePromo: ID
-    clian: ID
+    Owner: ID
   }
 
   input Sizedetail {

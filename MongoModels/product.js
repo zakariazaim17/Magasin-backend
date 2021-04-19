@@ -26,7 +26,7 @@ const productSchema = new Schema({
   Images: [{ type: mongoose.Types.ObjectId, ref: Image }],
   Published: Date,
   OnStore: Boolean,
-  Clian: [{ type: mongoose.Types.ObjectId, ref: User }],
+  Owner: [{ type: mongoose.Types.ObjectId, ref: User }],
   Quantity: { type: Number, min: 0 },
   Sizes: [{ types: String, enum: ["XS", "S", "M", "L", "XL", "2XL", "3XL"] }],
   CodePromo: [{ type: mongoose.Types.ObjectId, ref: Soldei }],
