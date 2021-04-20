@@ -8,6 +8,15 @@ export default gql`
 
   extend type Mutation {
     AddDiscount(Expiry: Datetime, Percentage: Int, Code: String): Soldei
+
+    UpdateDiscount(
+      id: ID
+      Expiry: Datetime
+      Percentage: Int
+      Code: String
+    ): Soldei
+
+    DeleteDiscount(id: ID): Soldei
   }
   type Soldei {
     id: ID

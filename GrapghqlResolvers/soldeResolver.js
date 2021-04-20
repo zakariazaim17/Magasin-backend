@@ -20,5 +20,25 @@ export default {
         console.log("Failed to add discount", e.message);
       }
     },
+
+    UpdateDiscount: async (parent, args) => {
+      try {
+        const updatedDiscount = await Soldes.findByIdAndUpdate(args.id, args, {
+          new: true,
+        });
+        return updatedDiscount;
+      } catch (e) {
+        console.log("Failed to update discount", e.message);
+      }
+    },
+
+    DeleteDiscount: async (parent, args) => {
+      try {
+        const deletedDiscount = await Soldes.findOneAndDelete({ _id: args.id });
+        return deletedDiscount;
+      } catch (e) {
+        console.log("Failed to Delete Discount", e.message);
+      }
+    },
   },
 };
