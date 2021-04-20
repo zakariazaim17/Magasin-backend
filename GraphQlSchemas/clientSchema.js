@@ -31,10 +31,4 @@ export default gql`
       Totalproducts: Int
     ): Client
   }
-
-  input Clientinput {
-    Username: String
-    Email: String
-    Pass: String
-  }
 `;
