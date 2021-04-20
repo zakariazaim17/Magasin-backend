@@ -3,7 +3,7 @@ import pkk from "apollo-server-express";
 import ClientSchema from "./clientSchema.js";
 import productSchema from "./productSchema.js";
 import soldeSchema from "./soldeSchema.js";
-
+import imageSchema from "./imagesSchema.js";
 const { gql } = pkk;
 const linkSchema = gql`
   scalar Datetime
@@ -16,6 +16,12 @@ const linkSchema = gql`
     _: Boolean
   }
 `;
-export default [linkSchema, ClientSchema, productSchema, soldeSchema];
+export default [
+  linkSchema,
+  ClientSchema,
+  productSchema,
+  soldeSchema,
+  imageSchema,
+];
 
 //scalar Date
