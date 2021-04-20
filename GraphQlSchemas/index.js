@@ -4,6 +4,7 @@ import ClientSchema from "./clientSchema.js";
 import productSchema from "./productSchema.js";
 import soldeSchema from "./soldeSchema.js";
 import imageSchema from "./imagesSchema.js";
+import favouriteSchema from "./favouriteSchema.js";
 const { gql } = pkk;
 const linkSchema = gql`
   scalar Datetime
@@ -22,6 +23,7 @@ export default [
   productSchema,
   soldeSchema,
   imageSchema,
+  favouriteSchema,
 ];
 
 //scalar Date
