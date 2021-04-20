@@ -8,19 +8,21 @@ export default gql`
     Category: String
     Description: String
     Published: Datetime
-    Owner: [Client]
+    Owner: Client
     OnStore: Boolean
     Quantity: Int
     Sizes: [String]
-    CodePromo: [Soldei]
+    CodePromo: Soldei
 
-    Images: [String]
+    Images: String
   }
 
   extend type Query {
     GetAllproducts: [Products]
 
     GetProductsByClient(id: ID!): [Products]
+
+    GetProductbyID(id: ID!): Products
   }
 
   extend type Mutation {
@@ -32,21 +34,20 @@ export default gql`
       Quantity: Int
       CodePromo: ID
       Owner: ID
+      Images: String
     ): Products
-  }
 
-  input productenter {
-    Title: String
-    Price: Int
-    Category: String
-    Description: String
-    Quantity: Int
-    Sizes: [Sizedetail]
-    CodePromo: ID
-    Owner: ID
-  }
+    UpdateProduct(
+      id: ID
+      Title: String
+      Price: Int
+      Category: String
+      Description: String
+      OnStore: Boolean
+      Quantity: Int
+      CodePromo: ID
+    ): Products
 
-  input Sizedetail {
-    koko: String
+    DeleteProducts(id: ID): Products
   }
 `;

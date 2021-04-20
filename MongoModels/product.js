@@ -23,13 +23,13 @@ const productSchema = new Schema({
     required: true,
   },
   Description: String,
-  Images: [{ type: mongoose.Types.ObjectId, ref: Image }],
+  Images: String,
   Published: Date,
   OnStore: Boolean,
-  Owner: [{ type: mongoose.Types.ObjectId, ref: User }],
+  Owner: { type: mongoose.Types.ObjectId, ref: User },
   Quantity: { type: Number, min: 0 },
   Sizes: [{ types: String, enum: ["XS", "S", "M", "L", "XL", "2XL", "3XL"] }],
-  CodePromo: [{ type: mongoose.Types.ObjectId, ref: Soldei }],
+  CodePromo: { type: mongoose.Types.ObjectId, ref: Soldei },
 });
 const Product = mongoose.model("Products", productSchema);
 export default Product;
