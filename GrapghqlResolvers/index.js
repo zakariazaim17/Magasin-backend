@@ -3,6 +3,7 @@ import Clientresolver from "./clientResolver.js";
 import Productresolver from "./productResolver.js";
 import soldeResolver from "./soldeResolver.js";
 import favouriteResolver from "./favouritesREsolver.js";
+import categoryREsolver from "./categoryResolver.js";
 
 //import pkg from "graphql-iso-date";
 import pks from "graphql";
@@ -37,4 +38,5 @@ export default [
   soldeResolver,
   imageResolver,
   favouriteResolver,
+  categoryREsolver,
 ];
