@@ -7,6 +7,7 @@ import imageSchema from "./imagesSchema.js";
 import favouriteSchema from "./favouriteSchema.js";
 import categoriesSchema from "./categorySchema.js";
 import bidingsSchema from "./bidingSchema.js";
+import complainSchema from "./complainSchemas.js";
 const { gql } = pkk;
 const linkSchema = gql`
   scalar Datetime
@@ -28,6 +29,7 @@ export default [
   favouriteSchema,
   categoriesSchema,
   bidingsSchema,
+  complainSchema,
 ];
 
 //scalar Date

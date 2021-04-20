@@ -11,7 +11,7 @@ export default {
         ]);
         return AllProducts;
       } catch (e) {
-        console.log("Failed to getall Products", e);
+        console.log("Failed to getall Products", e.message);
       }
     },
 
