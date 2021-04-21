@@ -55,7 +55,7 @@ const app = express();
     });
 
     app.use("/magasin", router);
-    app.use("/", express.static(path.join(__dirname, "/images")));
+    app.use("/", express.static("../images"));
 
     server.applyMiddleware({ app });
     app.listen(3004, () => {
