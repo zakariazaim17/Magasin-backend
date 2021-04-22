@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 //User model
 const UserSchema = new Schema({
-  Username: { type: String, required: true },
+  username: { type: String, required: true },
   Email: { type: String, required: true },
-  Pass: { type: String, required: true },
+  password: { type: String, required: true },
   ClientLevel: Number,
   Verified: Boolean,
   Joined: Date,

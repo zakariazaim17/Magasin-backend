@@ -7,6 +7,9 @@ import express from "express";
 import schemas from "./GraphqlSchemas/index.js";
 import resolvers from "./GrapghqlResolvers/index.js";
 
+import authpackage from "./passport/authenticate.js";
+const { checkAuth } = authpackage;
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -21,6 +24,28 @@ import connectMongo from "./db/db.js";
 
 const app = express();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+app.use(express.urlencoded({ extended: false })); // for parsing html form x-www-form-urlencoded
+app.use(express.json());
+
+app.use(cors());
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
+app.use("/magasin", router);
+app.use("/", express.static("../images"));
+
 (async () => {
   try {
     const conn = await connectMongo();
@@ -31,31 +56,18 @@ const app = express();
     const server = new ApolloServer({
       typeDefs: schemas,
       resolvers,
+      context: async ({ req, res }) => {
+        if (req) {
+          const user = await checkAuth(req, res);
+          console.log("app", user);
+          return {
+            req,
+            res,
+            user,
+          };
+        }
+      },
     });
-
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = dirname(__filename);
-
-    app.use(express.urlencoded({ extended: false })); // for parsing html form x-www-form-urlencoded
-    app.use(express.json());
-    app.use(cors());
-
-    app.use((req, res, next) => {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS");
-      res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Content-Type, Authorization"
-      );
-
-      if (req.method === "OPTIONS") {
-        return res.sendStatus(200);
-      }
-      next();
-    });
-
-    app.use("/magasin", router);
-    app.use("/", express.static("../images"));
 
     server.applyMiddleware({ app });
     app.listen(3004, () => {

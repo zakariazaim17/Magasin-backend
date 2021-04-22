@@ -6,10 +6,10 @@ export default {
     GetAllproducts: async (parent, args) => {
       try {
         const AllProducts = await Products.find().populate([
-          { path: "Owner" },
           { path: "CodePromo" },
+          { path: "Owner" },
         ]);
-        return AllProducts;
+        return await AllProducts;
       } catch (e) {
         console.log("Failed to getall Products", e.message);
       }

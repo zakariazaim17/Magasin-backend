@@ -1,4 +1,9 @@
 import clientModel from "../MongoModels/user.js";
+import apollopackage from "apollo-server-express";
+const { AuthenticationError } = apollopackage;
+import authpackage from "../passport/authenticate.js";
+const { login } = authpackage;
+import bcrypt from "bcrypt";
 
 export default {
   Query: {
@@ -10,11 +15,33 @@ export default {
       }
     },
 
-    GetAllClients: async (parent, args) => {
+    GetAllClients: async (parent, args, { user }) => {
+      console.log("userResolver", user);
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      } else {
+        try {
+          return await clientModel.find();
+        } catch (e) {
+          console.log(e.message);
+        }
+      }
+    },
+
+    login: async (parent, args, { req, res }) => {
+      console.log(args);
+      req.body = args;
+
       try {
-        return await clientModel.find();
+        const authResponse = await login(req, res);
+        console.log("authresponse", authResponse);
+        return {
+          id: authResponse.user._id,
+          ...authResponse.user,
+          token: authResponse.token,
+        };
       } catch (e) {
-        console.log(e.message);
+        throw new AuthenticationError("invalid credentials");
       }
     },
   },
@@ -22,8 +49,12 @@ export default {
   Mutation: {
     AddClient: async (parent, args) => {
       try {
+        const hashpassword = await bcrypt.hash(args.password, 12);
+
         const newClient = await new clientModel({
-          ...args,
+          username: args.username,
+          Email: args.Email,
+          password: hashpassword,
           Joined: new Date(),
           ClientLevel: 1,
           Verified: false,
@@ -32,25 +63,34 @@ export default {
 
         return newClient.save();
       } catch (e) {
-        console.log(e - mressage);
+        console.log(e.mressage);
       }
     },
 
-    UpdateClient: async (parent, args) => {
+    UpdateClient: async (parent, args, { user }) => {
+      console.log("userResolver", user);
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
+      const hashedpass = await bcrypt.hash(args.password, 11);
       try {
         const update = {
-          Username: args.Username,
+          username: args.username,
           Email: args.Email,
-          Pass: args.Pass,
+          password: hashedpass,
           ClientLevel: args.ClientLevel,
           Verified: args.Verified,
           Totalproducts: args.Totalproducts,
         };
-        return await clientModel.findByIdAndUpdate(args.id, args, {
-          new: true,
-        });
+        return await clientModel.findByIdAndUpdate(
+          args.id,
+          { ...args, password: hashedpass },
+          {
+            new: true,
+          }
+        );
       } catch (e) {
-        console.log("Update user Failed", e);
+        console.log("Update user Failed", e.message);
       }
     },
   },

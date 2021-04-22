@@ -3,29 +3,32 @@ const { gql } = pkg;
 export default gql`
   type Client {
     id: ID
-    Username: String
+    username: String
     Email: String
-    Pass: String
+    password: String
     Joined: Datetime
     ClientLevel: Int
     Verified: Boolean
     Totalproducts: Int
+    token: String
   }
 
   extend type Query {
     GetClientById(id: ID!): Client
 
     GetAllClients: [Client]
+
+    login(username: String!, password: String!): Client
   }
 
   extend type Mutation {
-    AddClient(Username: String, Email: String, Pass: String): Client
+    AddClient(username: String, Email: String, password: String): Client
 
     UpdateClient(
       id: ID!
-      Username: String
+      username: String
       Email: String
-      Pass: String
+      password: String
       ClientLevel: Int
       Verified: Boolean
       Totalproducts: Int
