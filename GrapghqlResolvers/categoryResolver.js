@@ -4,9 +4,7 @@ export default {
   Query: {
     GetCategories: async (parent, args) => {
       try {
-        const categorie = await Categories.find().populate([
-          { path: "Images" },
-        ]);
+        const categorie = await Categories.find();
         return categorie;
       } catch (e) {
         console.log("FAiled to get Categories", e.message);

@@ -1,8 +1,12 @@
 import Favourites from "../MongoModels/favourite.js";
-
+import apollopackage from "apollo-server-express";
+const { AuthenticationError } = apollopackage;
 export default {
   Query: {
-    GetFavourites: async (parent, args) => {
+    GetFavourites: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const favourites = await Favourites.find().populate([
           { path: "Owner" },

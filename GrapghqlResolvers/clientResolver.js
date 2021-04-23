@@ -7,11 +7,15 @@ import bcrypt from "bcrypt";
 
 export default {
   Query: {
-    GetClientById: async (parent, args) => {
-      try {
-        return await clientModel.findById(args.id);
-      } catch (e) {
-        console.log("Failed to get Client by id", e.message);
+    GetClientById: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      } else {
+        try {
+          return await clientModel.findById(args.id);
+        } catch (e) {
+          console.log("Failed to get Client by id", e.message);
+        }
       }
     },
 

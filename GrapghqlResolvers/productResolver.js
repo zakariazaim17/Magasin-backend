@@ -1,9 +1,15 @@
 import Products from "../MongoModels/product.js";
 import Images from "../MongoModels/image.js";
 import Soldes from "../MongoModels/solde.js";
+//import user from "../MongoModels/user.js";
+import apollopackage from "apollo-server-express";
+const { AuthenticationError } = apollopackage;
 export default {
   Query: {
-    GetAllproducts: async (parent, args) => {
+    GetAllproducts: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const AllProducts = await Products.find().populate([
           { path: "CodePromo" },
