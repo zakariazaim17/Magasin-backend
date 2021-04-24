@@ -32,7 +32,10 @@ export default {
 
     GetProductbyID: async (parent, args) => {
       try {
-        const SpecificProduct = await Products.findById(args.id);
+        const SpecificProduct = await Products.findById(args.id).populate([
+          { path: "CodePromo" },
+          { path: "Owner" },
+        ]);
         return SpecificProduct;
       } catch (e) {
         console.log("Failed to get specific Product", e.message);

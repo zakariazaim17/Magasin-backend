@@ -119,7 +119,7 @@ router
 
     newimage
       .save()
-      .then(() => res.send(newimage.id))
+      .then(() => res.send(newimage.photo))
       .catch((err) => res.status(400).json("Error: " + err));
   })
   .get(async (req, res) => {
