@@ -14,7 +14,11 @@ export default {
   Mutation: {
     AddDiscount: async (parent, args) => {
       try {
-        const newDiscount = await Soldes.create(args);
+        console.log("QQ", args.Expiry.toString(), args.Code);
+        const newDiscount = await Soldes.create({
+          ...args,
+          Expiry: new Date(args.Expiry),
+        });
         return newDiscount;
       } catch (e) {
         console.log("Failed to add discount", e.message);
