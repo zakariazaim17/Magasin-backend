@@ -23,6 +23,8 @@ export default gql`
     GetProductsByClient(id: ID!): [Products]
 
     GetProductbyID(id: ID!): Products
+
+    GetProductsByCategory(Category: String): [Products]
   }
 
   extend type Mutation {

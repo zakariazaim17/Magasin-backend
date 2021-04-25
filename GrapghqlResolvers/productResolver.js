@@ -41,6 +41,17 @@ export default {
         console.log("Failed to get specific Product", e.message);
       }
     },
+
+    GetProductsByCategory: async (parent, args) => {
+      try {
+        const CategorizedProducts = await Products.find()
+          .where({ Category: args.Category })
+          .populate([{ path: "CodePromo" }, { path: "Owner" }]);
+        return CategorizedProducts;
+      } catch (e) {
+        console.log("Filed Products based on Category", e.message);
+      }
+    },
   },
 
   Mutation: {
