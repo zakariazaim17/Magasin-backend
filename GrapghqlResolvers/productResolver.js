@@ -23,7 +23,9 @@ export default {
 
     GetProductsByClient: async (parent, args) => {
       try {
-        const UserProducts = await Products.find().where({ Owner: args.id });
+        const UserProducts = await Products.find()
+          .where({ Owner: args.id })
+          .populate([{ path: "CodePromo" }, { path: "Owner" }]);
         return UserProducts;
       } catch (e) {
         console.log("Failed to get Product", e.message);
