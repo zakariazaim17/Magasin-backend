@@ -12,6 +12,7 @@ export default gql`
       Initialprice: Int
       Owner: ID
       participants: Int
+      Images: String
     ): Biding
 
     DeleteBiding(id: ID): Biding
@@ -23,5 +24,6 @@ export default gql`
     Initialprice: Int
     participants: Int
     Owner: Client
+    Images: String
   }
 `;

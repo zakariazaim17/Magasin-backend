@@ -8,6 +8,7 @@ const BidingSchema = new Schema({
   Initialprice: { type: Number, required: true },
   participants: Number,
   Owner: { type: mongoose.Types.ObjectId, ref: User },
+  Images: String,
 });
 
 const Bidings = mongoose.model("Bidings", BidingSchema);
