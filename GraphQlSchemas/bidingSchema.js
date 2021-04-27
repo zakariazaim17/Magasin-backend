@@ -4,6 +4,8 @@ const { gql } = pkg;
 export default gql`
   extend type Query {
     GetBidings: [Biding]
+
+    GetBidingByID(id: ID): Biding
   }
 
   extend type Mutation {

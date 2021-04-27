@@ -10,6 +10,17 @@ export default {
         console.log("Failed to  get Bidings (resolver)", e.message);
       }
     },
+
+    GetBidingByID: async (parent, args) => {
+      try {
+        const BidByid = await Bidings.findById(args.id).populate([
+          { path: "Owner" },
+        ]);
+        return BidByid;
+      } catch (e) {
+        console.log("Failed to get bid by id", e.message);
+      }
+    },
   },
   Mutation: {
     AddBiding: async (parent, args) => {

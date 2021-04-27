@@ -4,7 +4,7 @@ import pkg from "apollo-server-express";
 const { ApolloServer } = pkg;
 import express from "express";
 
-import schemas from "./GraphqlSchemas/index.js";
+import schemas from "./GraphQlSchemas/index.js";
 import resolvers from "./GrapghqlResolvers/index.js";
 
 import authpackage from "./passport/authenticate.js";
