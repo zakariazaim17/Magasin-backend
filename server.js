@@ -22,7 +22,40 @@ import path from "path";
 import router from "./routes.js";
 import connectMongo from "./db/db.js";
 
+import * as io from "socket.io";
+import { createServer } from "http";
+
 const app = express();
+const socketServer = createServer(app);
+
+const socketio = new io.Server(socketServer, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+socketio.on("connection", (socket) => {
+  console.log("a uer connected", socket.id);
+
+  socket.on("chat message", (msg) => {
+    console.log("message: ", msg);
+    socketio.emit("chat message", msg);
+  });
+
+  socket.on("group message", (msg) => {
+    console.log("group__message: ", msg);
+    socketio.in(msg.room).emit("group message", msg);
+  });
+
+  socket.on("room", (msg) => {
+    socket.join(msg);
+  });
+
+  socket.on("leave", (msg) => {
+    socket.leave(msg);
+  });
+});
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -72,6 +105,10 @@ app.use("/", express.static("../images"));
     server.applyMiddleware({ app });
     app.listen(3004, () => {
       console.log(`sever runs in : http://localhost:3004${server.graphqlPath}`);
+    });
+
+    socketServer.listen(3007, () => {
+      console.log("server for socket");
     });
   } catch (e) {
     console.log(e.message);
