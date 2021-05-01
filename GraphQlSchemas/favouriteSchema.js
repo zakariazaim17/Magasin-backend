@@ -10,7 +10,7 @@ export default gql`
   extend type Mutation {
     AddFavourites(Owner: ID, Products: ID): Favourite
 
-    DeleteFavourite(Owner: ID, Products: ID): Favourite
+    DeleteFavourite(id: ID): Favourite
   }
 
   type Favourite {

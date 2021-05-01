@@ -35,7 +35,8 @@ export default {
     AddFavourites: async (parent, args) => {
       try {
         const newFavourite = await Favourites.create(args);
-        return newFavourite.save();
+        const addedFavourite = newFavourite.save();
+        return addedFavourite;
       } catch (e) {
         console.log("Failed to Add Favourites (REsolvers)", e.message);
       }
@@ -43,9 +44,8 @@ export default {
 
     DeleteFavourite: async (parent, args) => {
       try {
-        const deletedFavourite = await Favourites.findOneAndDelete().where({
-          Owner: args.Owner,
-          Products: args.Products,
+        const deletedFavourite = await Favourites.findOneAndDelete({
+          _id: args.id,
         });
         return deletedFavourite;
       } catch (e) {
