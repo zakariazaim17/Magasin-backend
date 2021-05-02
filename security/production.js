@@ -11,7 +11,7 @@ const production = (app, port) => {
     }
   });
 
-  app.listen(3004);
+  app.listen(port);
 };
 
 export default production;

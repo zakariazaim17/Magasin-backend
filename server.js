@@ -128,6 +128,6 @@ app.use("/", express.static("../images"));
       console.log("server for socket");
     });*/
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
   }
 })();
