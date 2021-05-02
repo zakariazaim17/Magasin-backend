@@ -114,19 +114,19 @@ app.use("/", express.static("../images"));
     process.env.NODE_ENV = process.env.NODE_ENV || "development";
     if (process.env.NODE_ENV === "production") {
       production(app, 3004);
-      production(socketServer, 3007);
+      //production(socketServer, 3007);
     } else {
       localhost(app, 8000, 3004);
-      localhost(socketServer, 8001, 3007);
+      //localhost(socketServer, 8006, 3007);
     }
 
     /*app.listen(3004, () => {
       console.log(`sever runs in : http://localhost:3004${server.graphqlPath}`);
     });*/
 
-    /* socketServer.listen(3007, () => {
+    socketServer.listen(3007, () => {
       console.log("server for socket");
-    });*/
+    });
   } catch (e) {
     console.log(e);
   }
