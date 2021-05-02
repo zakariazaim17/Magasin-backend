@@ -4,6 +4,12 @@ import pkg from "apollo-server-express";
 const { ApolloServer } = pkg;
 import express from "express";
 
+import bcrypt from "bcrypt";
+import helmet from "helmet";
+
+import localhost from "./security/localhost.js";
+import production from "./security/production.js";
+
 import schemas from "./GraphQlSchemas/index.js";
 import resolvers from "./GrapghqlResolvers/index.js";
 
@@ -26,6 +32,7 @@ import * as io from "socket.io";
 import { createServer } from "http";
 
 const app = express();
+app.use(helmet.hidePoweredBy());
 const socketServer = createServer(app);
 
 const socketio = new io.Server(socketServer, {
@@ -103,13 +110,23 @@ app.use("/", express.static("../images"));
     });
 
     server.applyMiddleware({ app });
-    app.listen(3004, () => {
-      console.log(`sever runs in : http://localhost:3004${server.graphqlPath}`);
-    });
 
-    socketServer.listen(3007, () => {
+    process.env.NODE_ENV = process.env.NODE_ENV || "development";
+    if (process.env.NODE_ENV === "production") {
+      production(app, 3004);
+      production(socketServer, 3007);
+    } else {
+      localhost(app, 8000, 3004);
+      localhost(socketServer, 8001, 3007);
+    }
+
+    /*app.listen(3004, () => {
+      console.log(`sever runs in : http://localhost:3004${server.graphqlPath}`);
+    });*/
+
+    /* socketServer.listen(3007, () => {
       console.log("server for socket");
-    });
+    });*/
   } catch (e) {
     console.log(e.message);
   }
