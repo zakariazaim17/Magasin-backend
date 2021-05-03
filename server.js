@@ -40,6 +40,10 @@ const socketio = new io.Server(socketServer, {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
+  cors: {
+    origin: "https://e-comm-magasin.herokuapp.com/",
+    methods: ["GET", "POST"],
+  },
 });
 
 socketio.on("connection", (socket) => {
