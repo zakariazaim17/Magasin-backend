@@ -14,6 +14,14 @@ import Image from "./MongoModels/image.js";
 import Category from "./MongoModels/categorie.js";
 import Bidings from "./MongoModels/biding.js";
 import Favourites from "./MongoModels/favourite.js";
+import Stripe from "stripe";
+import productSchema from "./GraphQlSchemas/productSchema.js";
+import cors from "cors";
+
+import dotenv from "dotenv";
+dotenv.config();
+
+const stripe = new Stripe(process.env.Secret_key_stripe);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -153,16 +161,78 @@ router.route("/bidings").post(async (req, res) => {
   }
 });
 
-router.route("/favourites").post(async (req, res) => {
-  try {
-    const newFavourite = await Favourites.create({
-      Owner: req.body.Favourite.Owner,
-      Products: req.body.Favourite.Product,
+router
+  .route("/favourites")
+  .post(async (req, res) => {
+    try {
+      const newFavourite = await Favourites.create({
+        Owner: req.body.Favourite.Owner,
+        Products: req.body.Favourite.Product,
+      });
+      res.send(newFavourite);
+    } catch (e) {
+      res.send(e.message);
+    }
+  })
+  .get(async (req, res) => {
+    res.send(await Favourites.find());
+  });
+
+router.route("/paymentGateway").post((req, res) => {
+  const { token, SingleProduct } = req.body;
+  console.log("Product", SingleProduct);
+  console.log("Price", SingleProduct.Price);
+  const idempontencyKey = uuidv4();
+
+  /* try {
+    const customer = await stripe.customers.create({
+      email: token.email,
+      source: token.id,
     });
-    res.send(newFavourite);
+    console.log("customer", customer);
+    const charge = await stripe.charges.create(
+      {
+        amount: SingleProduct.Price * 100,
+        currency: "usd",
+        customer: customer.id,
+        receipt_email: token.email,
+        description: `bying ${SingleProduct.Title}`,
+         shipping: {
+          name: token.card.address_country,
+        },
+      },
+      { idempontencyKey }
+    );
   } catch (e) {
-    res.send(e.message);
-  }
+    console.log("FAiled", e.message);
+  }*/
+
+  return (
+    stripe.customers
+      .create({
+        email: token.email,
+        source: token.id,
+      })
+      //.catch((e) => console.log("Stripe customer", e))
+      .then((customer) => {
+        stripe.charges
+          .create({
+            amount: SingleProduct.Price * 100,
+            currency: "usd",
+            customer: customer.id,
+            receipt_email: token.email,
+            description: SingleProduct.Title,
+            /*shipping: {
+            name: token.card.address_country,
+          },*/
+          })
+          .catch((e) => console.log("scscsc", e.message))
+          .then((result) => res.status(200).json(result))
+          .catch((err) => console.log("request status", err));
+      })
+  );
+
+  //.catch((err) => console.log("Charge for customersss", err));
 });
 
 export default router;
