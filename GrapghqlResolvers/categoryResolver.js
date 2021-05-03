@@ -2,7 +2,10 @@ import Categories from "../MongoModels/categorie.js";
 
 export default {
   Query: {
-    GetCategories: async (parent, args) => {
+    GetCategories: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const categorie = await Categories.find();
         return categorie;
@@ -13,7 +16,10 @@ export default {
   },
 
   Mutation: {
-    AddCategory: async (parent, args) => {
+    AddCategory: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const newCategory = await Categories.create(args);
         return newCategory;

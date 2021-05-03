@@ -2,7 +2,10 @@ import Complains from "../MongoModels/complaint.js";
 
 export default {
   Query: {
-    GetComplains: async (parent, args) => {
+    GetComplains: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const AllComplains = await Complains.find().populate([
           { path: "From" },
@@ -16,7 +19,10 @@ export default {
   },
 
   Mutation: {
-    AddComplain: async (parent, args) => {
+    AddComplain: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const newComplain = await Complains.create({
           ...args,
@@ -29,7 +35,10 @@ export default {
       }
     },
 
-    DeleteComplain: async (parent, args) => {
+    DeleteComplain: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const deletedComplain = await Complains.findOneAndDelete({
           _id: args.id,
@@ -41,7 +50,10 @@ export default {
       }
     },
 
-    UpdateComplain: async (parent, args) => {
+    UpdateComplain: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const updatedComplain = await Complains.findByIdAndUpdate(
           args.id,

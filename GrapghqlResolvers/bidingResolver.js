@@ -2,7 +2,10 @@ import Bidings from "../MongoModels/biding.js";
 
 export default {
   Query: {
-    GetBidings: async (parent, args) => {
+    GetBidings: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const Biding = await Bidings.find().populate([{ path: "Owner" }]);
         return Biding;
@@ -11,7 +14,10 @@ export default {
       }
     },
 
-    GetBidingByID: async (parent, args) => {
+    GetBidingByID: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const BidByid = await Bidings.findById(args.id).populate([
           { path: "Owner" },
@@ -23,7 +29,10 @@ export default {
     },
   },
   Mutation: {
-    AddBiding: async (parent, args) => {
+    AddBiding: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const newBidings = await Bidings.create(args);
         const finalBiding = await newBidings.save();
@@ -33,7 +42,10 @@ export default {
       }
     },
 
-    DeleteBiding: async (parent, args) => {
+    DeleteBiding: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const deletedbiding = await Bidings.findOneAndDelete({ _id: args.id });
         return deletedbiding;

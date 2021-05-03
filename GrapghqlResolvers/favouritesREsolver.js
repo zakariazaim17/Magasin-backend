@@ -18,7 +18,10 @@ export default {
       }
     },
 
-    GetUserFavourites: async (parent, args) => {
+    GetUserFavourites: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const userFaavourite = await Favourites.find()
           .where({
@@ -32,7 +35,10 @@ export default {
     },
   },
   Mutation: {
-    AddFavourites: async (parent, args) => {
+    AddFavourites: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const newFavourite = await Favourites.create(args);
         const addedFavourite = newFavourite.save();
@@ -42,7 +48,10 @@ export default {
       }
     },
 
-    DeleteFavourite: async (parent, args) => {
+    DeleteFavourite: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const deletedFavourite = await Favourites.findOneAndDelete({
           _id: args.id,

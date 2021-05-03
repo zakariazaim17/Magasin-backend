@@ -21,7 +21,10 @@ export default {
       }
     },
 
-    GetProductsByClient: async (parent, args) => {
+    GetProductsByClient: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const UserProducts = await Products.find()
           .where({ Owner: args.id })
@@ -32,7 +35,10 @@ export default {
       }
     },
 
-    GetProductbyID: async (parent, args) => {
+    GetProductbyID: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const SpecificProduct = await Products.findById(args.id).populate([
           { path: "CodePromo" },
@@ -44,7 +50,10 @@ export default {
       }
     },
 
-    GetProductsByCategory: async (parent, args) => {
+    GetProductsByCategory: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const CategorizedProducts = await Products.find()
           .where({ Category: args.Category })
@@ -57,7 +66,10 @@ export default {
   },
 
   Mutation: {
-    AddProduct: async (parent, args) => {
+    AddProduct: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const newProduct = await Products.create({
           ...args,
@@ -76,7 +88,10 @@ export default {
       }
     },
 
-    UpdateProduct: async (parent, args) => {
+    UpdateProduct: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const updatedProduct = await Products.findByIdAndUpdate(args.id, args, {
           new: true,
@@ -87,7 +102,10 @@ export default {
       }
     },
 
-    DeleteProducts: async (parent, args) => {
+    DeleteProducts: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const producttodelete = await Products.findById(args.id).populate([
           { path: "CodePromo" },

@@ -2,7 +2,10 @@ import Images from "../MongoModels/image.js";
 
 export default {
   Query: {
-    GetImages: async (parent, args) => {
+    GetImages: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const images = await Images.find();
         return images;
@@ -13,7 +16,10 @@ export default {
   },
 
   Mutation: {
-    DeleteImage: async (parent, args) => {
+    DeleteImage: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const deletedImage = await Images.findOneAndDelete({
           photo: args.photo,

@@ -2,7 +2,10 @@ import Soldes from "../MongoModels/solde.js";
 
 export default {
   Query: {
-    GetdiscountByID: async (parent, args) => {
+    GetdiscountByID: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         return await Soldes.findById(args.id);
       } catch (e) {
@@ -12,7 +15,10 @@ export default {
   },
 
   Mutation: {
-    AddDiscount: async (parent, args) => {
+    AddDiscount: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         console.log("QQ", args.Expiry.toString(), args.Code);
         const newDiscount = await Soldes.create({
@@ -25,7 +31,10 @@ export default {
       }
     },
 
-    UpdateDiscount: async (parent, args) => {
+    UpdateDiscount: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const updatedDiscount = await Soldes.findByIdAndUpdate(args.id, args, {
           new: true,
@@ -36,7 +45,10 @@ export default {
       }
     },
 
-    DeleteDiscount: async (parent, args) => {
+    DeleteDiscount: async (parent, args, { user }) => {
+      if (!user) {
+        throw new AuthenticationError("You are not authenticated");
+      }
       try {
         const deletedDiscount = await Soldes.findOneAndDelete({ _id: args.id });
         return deletedDiscount;
