@@ -36,12 +36,12 @@ app.use(helmet.hidePoweredBy());
 const socketServer = createServer(app);
 
 const socketio = new io.Server(socketServer, {
-  cors: {
+  /*cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
-  },
+  },*/
   cors: {
-    origin: "https://e-comm-magasin.herokuapp.com/",
+    origin: "https://e-comm-magasin.herokuapp.com",
     methods: ["GET", "POST"],
   },
 });
