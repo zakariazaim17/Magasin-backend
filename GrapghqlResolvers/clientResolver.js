@@ -76,17 +76,8 @@ export default {
       if (!user) {
         throw new AuthenticationError("You are not authenticated");
       }
-      //const hashedpass = await bcrypt.hash(args.password, 11);
+
       try {
-        /*  const update = {
-          username: args.username,
-          Email: args.Email,
-          password: hashedpass,
-          ClientLevel: args.ClientLevel,
-          Verified: args.Verified,
-          Totalproducts: args.Totalproducts,
-        };
-        */
         const updatedClient = await clientModel.findByIdAndUpdate(
           args.id,
           args,

@@ -71,7 +71,7 @@ socketio.on("connection", (socket) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-app.use(express.urlencoded({ extended: false })); // for parsing html form x-www-form-urlencoded
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(cors());

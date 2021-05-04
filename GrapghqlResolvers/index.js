@@ -7,7 +7,6 @@ import categoryREsolver from "./categoryResolver.js";
 import bidingsResolver from "./bidingResolver.js";
 import complainResolver from "./complainREsolver.js";
 
-//import pkg from "graphql-iso-date";
 import pks from "graphql";
 const { GraphQLScalarType, Kind } = pks;
 

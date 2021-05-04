@@ -1,12 +1,11 @@
 import express from "express";
 const router = express.Router();
 import User from "./MongoModels/user.js";
-import db from "./db/db.js";
+
 import solde from "./MongoModels/solde.js";
 import Product from "./MongoModels/product.js";
 import Complain from "./MongoModels/complaint.js";
-import image from "./MongoModels/image.js";
-import fs from "fs";
+
 import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import path from "path";
@@ -15,8 +14,6 @@ import Category from "./MongoModels/categorie.js";
 import Bidings from "./MongoModels/biding.js";
 import Favourites from "./MongoModels/favourite.js";
 import Stripe from "stripe";
-import productSchema from "./GraphQlSchemas/productSchema.js";
-import cors from "cors";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -85,7 +82,7 @@ router
         Published: new Date(),
         OnStore: true,
         Quantity: req.body.Products.Quantity,
-        //Sizes: req.body.Products.Sizes,
+
         CodePromo: req.body.Products.CodePromo,
         Owner: req.body.Products.Owner,
       });
@@ -184,55 +181,25 @@ router.route("/paymentGateway").post((req, res) => {
   console.log("Price", SingleProduct.Price);
   const idempontencyKey = uuidv4();
 
-  /* try {
-    const customer = await stripe.customers.create({
+  return stripe.customers
+    .create({
       email: token.email,
       source: token.id,
+    })
+
+    .then((customer) => {
+      stripe.charges
+        .create({
+          amount: SingleProduct.Price * 100,
+          currency: "usd",
+          customer: customer.id,
+          receipt_email: token.email,
+          description: SingleProduct.Title,
+        })
+        .catch((e) => console.log("scscsc", e.message))
+        .then((result) => res.status(200).json(result))
+        .catch((err) => console.log("request status", err));
     });
-    console.log("customer", customer);
-    const charge = await stripe.charges.create(
-      {
-        amount: SingleProduct.Price * 100,
-        currency: "usd",
-        customer: customer.id,
-        receipt_email: token.email,
-        description: `bying ${SingleProduct.Title}`,
-         shipping: {
-          name: token.card.address_country,
-        },
-      },
-      { idempontencyKey }
-    );
-  } catch (e) {
-    console.log("FAiled", e.message);
-  }*/
-
-  return (
-    stripe.customers
-      .create({
-        email: token.email,
-        source: token.id,
-      })
-      //.catch((e) => console.log("Stripe customer", e))
-      .then((customer) => {
-        stripe.charges
-          .create({
-            amount: SingleProduct.Price * 100,
-            currency: "usd",
-            customer: customer.id,
-            receipt_email: token.email,
-            description: SingleProduct.Title,
-            /*shipping: {
-            name: token.card.address_country,
-          },*/
-          })
-          .catch((e) => console.log("scscsc", e.message))
-          .then((result) => res.status(200).json(result))
-          .catch((err) => console.log("request status", err));
-      })
-  );
-
-  //.catch((err) => console.log("Charge for customersss", err));
 });
 
 export default router;

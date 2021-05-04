@@ -1,7 +1,7 @@
 import Products from "../MongoModels/product.js";
 import Images from "../MongoModels/image.js";
 import Soldes from "../MongoModels/solde.js";
-//import user from "../MongoModels/user.js";
+
 import apollopackage from "apollo-server-express";
 const { AuthenticationError } = apollopackage;
 export default {
@@ -77,7 +77,7 @@ export default {
           OnStore: true,
         });
         const test = await newProduct.save();
-        //console.log(test);
+
         const Product = await Products.findById(test._id).populate([
           { path: "Owner" },
           { path: "CodePromo" },

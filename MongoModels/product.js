@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import User from "./user.js";
-import Image from "./image.js";
+
 import Soldei from "./solde.js";
 
 const Schema = mongoose.Schema;

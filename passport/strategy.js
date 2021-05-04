@@ -28,14 +28,6 @@ passport.use(
       delete strippedUser.password;
       console.log("deleted pwd", strippedUser);
 
-      //read from database... here a possible hash of 'bar'
-      /* const pwdFromDB =
-        "$2b$12$60Ga5GTbzh4T1nhf8EkA7uRDCzv4KUimrX4.N1DCbn2P0A1e59Rui";
-      const validate = await bcrypt.compare(password, pwdFromDB);
-      if (username !== "foo" || !validate) {
-        return done(null, false, { message: "Incorrect credentials." });
-      }
-      const strippedUser = { id: 1, username: "foo" };*/
       return done(null, strippedUser, { message: "Logged In Successfully" });
     } catch (err) {
       return done(err);
@@ -43,7 +35,6 @@ passport.use(
   })
 );
 
-// TODO: JWT strategy for handling bearer token
 passport.use(
   new JWTStrategy(
     {
@@ -52,13 +43,10 @@ passport.use(
     },
     async (jwtPayload, done) => {
       console.log("payload", jwtPayload);
-      //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
+
       try {
         const user = await userModel.findById(jwtPayload._id, "-password -__v");
         console.log("pl user", user);
-
-        /* let user = null;
-        if (jwtPayload.username === "foo") user = { id: 1, username: "foo" };*/
 
         if (user !== null) {
           return done(null, user);

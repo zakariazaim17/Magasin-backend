@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Image from "./image.js";
 
 const Schema = mongoose.Schema;
 
