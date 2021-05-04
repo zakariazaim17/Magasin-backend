@@ -134,7 +134,7 @@ note! token is required since all endpoints are protected. so login and use bear
 -GetClientFavourites
 ````
 query {
-                GetUserFavourites(id: ID! )}") {
+                GetUserFavourites(id: ID! ) {
                   id
                   Products {
                     Title
@@ -175,7 +175,7 @@ query {
 -GetOwnProducts
 ````
     query {
-              GetProductsByClient(id: ID! )}") {
+              GetProductsByClient(id: ID! ) {
               
                 id
                 Title
