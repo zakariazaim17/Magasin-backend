@@ -12,7 +12,7 @@ link to heroku: https://e-comm-magasin.herokuapp.com/  note jelastic might be sl
   5. [Questions](#Questions)
 
 # DESCRIPTION
-• this is a backend application as part of e-commerce project. users can post, buy, update and delete products on needs. also the application provides the ability to take part of bidings on several available products by the owners through searate rooms that holds unlimited number of guests. also the possibility of purchasing is possible through stripe gateway integrated with the checkout, so making transactions between users secure and reliable.   
+• this is a backend application as part of e-commerce project. users can post, buy, update and delete products on their needs. also the application provides the ability to take part of bidings on several available products by the owners through separate rooms that holds unlimited number of guests. also the possibility of purchasing is possible through stripe gateway integrated with the checkout, so making transactions between users secure and reliable.   
 
 # TECHNOLOGY USED
 • Node
